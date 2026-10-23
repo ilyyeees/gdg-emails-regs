@@ -50,6 +50,8 @@ The departmental relics and acceptance seal are original AI-generated fantasy il
 
 ## Validation
 
+Hosted Chromium preview checks covered all ten departments at 320px, 375px, and 704px iframe widths: no horizontal overflow, acceptance copy present, and all images loaded. Images-off mode was checked on Robotics: branding, acceptance, department, next-step instructions, and CTA remain readable. Full-length visual review covered Events desktop and 320px plus Mobile Development at 320px. A missing CTA arrow glyph was removed after visual review.
+
 Static checks cover all ten templates: complete placeholder sets, public HTTPS image paths, table-based structure, descriptive primary-image alt text, and HTML under 9 KB per letter. Browser rendering is **not** inbox-client certification. Gmail, Apple Mail, Outlook, and mobile clients may transform CSS, colors, and image display. A real inbox test is still required before production sending.
 
 The raster blackletter heading uses **Pirata One**, copyright Rodrigo Fuenzalida and Nicolas Massi, distributed under the SIL Open Font License 1.1. The unmodified font and license are bundled in `assets/fonts/`. Source: https://github.com/google/fonts/tree/main/ofl/pirataone . Only the decorative heading is rasterized; the acceptance and all actionable content remain real HTML.
