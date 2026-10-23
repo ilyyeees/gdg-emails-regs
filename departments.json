@@ -2,70 +2,60 @@
   {
     "name": "Events",
     "slug": "events",
-    "chapter": "I",
     "accent": "#e5bd77",
     "subject": "You\u2019re in! Welcome to GDG ENSIA \u00b7 Events"
   },
   {
     "name": "Multimedia",
     "slug": "multimedia",
-    "chapter": "II",
     "accent": "#ef9a99",
     "subject": "You\u2019re in! Welcome to GDG ENSIA \u00b7 Multimedia"
   },
   {
     "name": "Production",
     "slug": "production",
-    "chapter": "III",
     "accent": "#dda77f",
     "subject": "You\u2019re in! Welcome to GDG ENSIA \u00b7 Production"
   },
   {
     "name": "Mobile Development",
     "slug": "mobile-development",
-    "chapter": "IV",
     "accent": "#8ed6ad",
     "subject": "You\u2019re in! Welcome to GDG ENSIA \u00b7 Mobile Development"
   },
   {
     "name": "Web Development",
     "slug": "web-development",
-    "chapter": "V",
     "accent": "#99cce9",
     "subject": "You\u2019re in! Welcome to GDG ENSIA \u00b7 Web Development"
   },
   {
     "name": "Relex",
     "slug": "relex",
-    "chapter": "VI",
     "accent": "#a6bdf0",
     "subject": "You\u2019re in! Welcome to GDG ENSIA \u00b7 Relex"
   },
   {
     "name": "UI/UX",
     "slug": "ui-ux",
-    "chapter": "VII",
     "accent": "#c9b0ef",
     "subject": "You\u2019re in! Welcome to GDG ENSIA \u00b7 UI/UX"
   },
   {
     "name": "Robotics",
     "slug": "robotics",
-    "chapter": "VIII",
     "accent": "#8bd7cc",
     "subject": "You\u2019re in! Welcome to GDG ENSIA \u00b7 Robotics"
   },
   {
     "name": "AI",
     "slug": "ai",
-    "chapter": "IX",
     "accent": "#d1b5f5",
     "subject": "You\u2019re in! Welcome to GDG ENSIA \u00b7 AI"
   },
   {
     "name": "Graphic Design",
     "slug": "graphic-design",
-    "chapter": "X",
     "accent": "#e8a6cc",
     "subject": "You\u2019re in! Welcome to GDG ENSIA \u00b7 Graphic Design"
   }

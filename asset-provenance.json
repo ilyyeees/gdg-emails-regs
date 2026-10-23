@@ -13,5 +13,15 @@
   "acceptance-seal.png": {
     "method": "Original image generation",
     "note": "Decorative four-leaf wax seal, not official branding"
+  },
+  "department_ornaments": {
+    "method": "Original image generation",
+    "style": "Sparse brass-and-jewel botanical and technical filigree matching each department",
+    "treatment": "Resizing and PNG encoding only"
+  },
+  "parchment_caps": {
+    "method": "Original image generation",
+    "purpose": "Illustrated worn-paper edges for the live HTML acceptance letter",
+    "note": "Texture is deliberately compressed vertically at display size; text is never part of this artwork."
   }
 }

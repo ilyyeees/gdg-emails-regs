@@ -30,11 +30,11 @@ Events, Multimedia, Production, Mobile Development, Web Development, Relex, UI/U
 
 - Maximum width 680px with fluid presentation tables and inline CSS.
 - Live acceptance copy, department, personal greeting, next-step instructions, and CTA.
-- CSS media query enhancements; no layout-critical flex, grid, JavaScript, web fonts, SVG, or background images inside emails.
+- CSS media query enhancements; no layout-critical flex, grid, JavaScript, web fonts, or SVG. A nonessential departmental ornament is used as a CSS background behind the letter heading; solid parchment remains as its fallback.
 - Explicit HTML colors and a light color-scheme preference. Dark-mode rewriting remains client-dependent.
 - Meaningful alt text on primary illustrations; decorative repeats have empty alt text.
 - Classic desktop Outlook receives table width fallback. Serif/system font fallbacks are intentional.
-- Each letter reuses its generated department relic in the hero and squad section, plus a shared illustrated acceptance seal.
+- Each letter reuses its generated department relic in the hero and squad section, plus a larger illustrated acceptance seal. Additional original departmental filigree decorates the letter heading and footer. Illustrated worn parchment caps frame the live-text letter; a fine two-tone fold line adds age without obscuring text.
 
 ## Asset hosting
 
@@ -52,6 +52,6 @@ The departmental relics and acceptance seal are original AI-generated fantasy il
 
 Hosted Chromium preview checks covered all ten departments at 320px, 375px, and 704px iframe widths: no horizontal overflow, acceptance copy present, and all images loaded. Images-off mode was checked on Robotics: branding, acceptance, department, next-step instructions, and CTA remain readable. Full-length visual review covered Events desktop and 320px plus Mobile Development at 320px. A missing CTA arrow glyph was removed after visual review.
 
-Static checks cover all ten templates: complete placeholder sets, public HTTPS image paths, table-based structure, descriptive primary-image alt text, and HTML under 9 KB per letter. Browser rendering is **not** inbox-client certification. Gmail, Apple Mail, Outlook, and mobile clients may transform CSS, colors, and image display. A real inbox test is still required before production sending.
+Static checks cover all ten templates: complete placeholder sets, public HTTPS image paths, table-based structure, descriptive primary-image alt text, and HTML under 10 KB per letter. Browser rendering is **not** inbox-client certification. Gmail, Apple Mail, Outlook, and mobile clients may transform CSS, colors, and image display. A real inbox test is still required before production sending.
 
 The raster blackletter heading uses **Pirata One**, copyright Rodrigo Fuenzalida and Nicolas Massi, distributed under the SIL Open Font License 1.1. The unmodified font and license are bundled in `assets/fonts/`. Source: https://github.com/google/fonts/tree/main/ofl/pirataone . Only the decorative heading is rasterized; the acceptance and all actionable content remain real HTML.
