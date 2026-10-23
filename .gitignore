@@ -1,0 +1,11 @@
+# Local credentials and secret variants
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# Local test messages and duplicate-protection journals
+.test-output/
+.send-state/
+__pycache__/
+*.py[cod]

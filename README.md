@@ -20,7 +20,7 @@ Replace **all three** placeholders in each recipient's HTML and plain text:
 | `{{next_step_text}}` | Your real next-step instructions, HTML-escaped |
 | `{{next_step_url}}` | Real absolute HTTPS onboarding destination, safely attribute-escaped |
 
-Do not send until the final HTTPS image URLs resolve publicly and all placeholders have been replaced. Review links, copy, and images in a real test message before sending to members. This project deliberately contains no sender, mailing list, name injection script, or tracking pixel. No dates, meetings, chat groups, or deadlines have been invented.
+Do not send until the final HTTPS image URLs resolve publicly and all placeholders have been replaced. Review links, copy, and images in a real test message before sending to members. A deliberately test-only Gmail sender is available in `send_emails.py`; see [SENDING.md](SENDING.md). It sends all ten templates to the fixed test recipient with the name Ilyes only when you explicitly run `--test`. Normal/CSV sending remains disabled. There is no mailing list or tracking pixel. No dates, meetings, chat groups, or deadlines have been invented.
 
 ## Departments
 
@@ -55,3 +55,7 @@ Hosted Chromium preview checks covered all ten departments at 320px, 375px, and 
 Static checks cover all ten templates: complete placeholder sets, public HTTPS image paths, table-based structure, descriptive primary-image alt text, and HTML under 10 KB per letter. Browser rendering is **not** inbox-client certification. Gmail, Apple Mail, Outlook, and mobile clients may transform CSS, colors, and image display. A real inbox test is still required before production sending.
 
 The raster blackletter heading uses **Pirata One**, copyright Rodrigo Fuenzalida and Nicolas Massi, distributed under the SIL Open Font License 1.1. The unmodified font and license are bundled in `assets/fonts/`. Source: https://github.com/google/fonts/tree/main/ofl/pirataone . Only the decorative heading is rasterized; the acceptance and all actionable content remain real HTML.
+
+## Test with Gmail SMTP
+
+See [SENDING.md](SENDING.md) for local `.env` configuration and commands. `python3 send_emails.py --test --dry-run` writes offline `.eml` previews; `python3 send_emails.py --test` sends ten real test messages to `gdg@ensia.edu.dz`. The sender preserves the existing template HTML and does not claim to fix Gmail dark-mode inversion.
