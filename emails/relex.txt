@@ -8,7 +8,7 @@ You’re now part of a community that learns by making things together. Bring yo
 
 Welcome to the squad!
 
-Your next step: {{next_step_text}}
+Your department’s Telegram group: {{next_step_text}}
 {{next_step_url}}
 
 GDG ENSIA Team

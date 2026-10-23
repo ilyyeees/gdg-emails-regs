@@ -9,3 +9,10 @@
 .send-state/
 __pycache__/
 *.py[cod]
+
+# Private Telegram invite mappings
+groups.csv
+groups.*.csv
+!groups.example.csv
+
+static-QA.md

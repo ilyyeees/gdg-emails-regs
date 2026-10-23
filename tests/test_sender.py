@@ -18,6 +18,8 @@ class SenderTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         shutil.copy(sender.ROOT / 'departments.json', self.root)
         shutil.copytree(sender.ROOT / 'emails', self.root / 'emails')
+        self.groups = {slug: 'https://t.me/+TESTONLY_' + slug for slug in sender.SLUGS}
+        self.write_groups(self.groups)
         self.env = patch.dict(os.environ, {'GMAIL_ADDRESS': 'sender@example.com', 'GMAIL_APP_PASSWORD': 'test-secret-not-real'}, clear=True)
         self.env.start()
         self.smtp = patch.object(sender.smtplib, 'SMTP_SSL')
@@ -28,6 +30,10 @@ class SenderTests(unittest.TestCase):
         self.stdout = contextlib.redirect_stdout(self.output)
         self.stderr = contextlib.redirect_stderr(self.output)
         self.stdout.__enter__(); self.stderr.__enter__()
+    def write_groups(self, groups):
+        import csv
+        with (self.root/'groups.csv').open('w',newline='') as f:
+            w=csv.writer(f); w.writerow(['department','telegram_url']); w.writerows(groups.items())
     def tearDown(self):
         self.stderr.__exit__(None,None,None); self.stdout.__exit__(None,None,None)
         self.smtp.stop(); self.env.stop(); self.tmp.cleanup()
@@ -59,11 +65,13 @@ class SenderTests(unittest.TestCase):
             self.assertIn('[TEST test]', msg['Subject'])
             self.assertEqual(msg.get_content_type(), 'multipart/alternative')
             html = msg.get_body(preferencelist=('html',)).get_content()
-            expected = sender.render((self.root/'emails'/f'{slug}.html').read_text(), True)
+            department = next(d['name'] for d in json.loads((self.root/'departments.json').read_text()) if d['slug']==slug)
+            expected = sender.render((self.root/'emails'/f'{slug}.html').read_text(), True, department, self.groups[slug])
             self.assertEqual(html.replace('\r\n','\n').rstrip('\n'), expected.rstrip('\n'))
             self.assertIn('<head>', html); self.assertIn('<style>', html)
             self.assertIn('Dear Ilyes', html); self.assertNotIn('{{', html)
-            self.assertIn(sender.PREVIEW_URL, html)
+            self.assertIn(self.groups[slug], html)
+            self.assertEqual(html.count('href="'+self.groups[slug]+'"'),1)
             self.assertIn('Ilyes', msg.get_body(preferencelist=('plain',)).get_content())
         self.assertNotIn('test-secret-not-real', self.output.getvalue())
     def test_success_can_be_intentionally_repeated(self):
@@ -112,6 +120,62 @@ class SenderTests(unittest.TestCase):
         self.assertEqual(self.run_main('--test'),1)
         self.assertNotIn('test-secret-not-real',self.output.getvalue())
         self.factory.assert_not_called()
+    def test_missing_one_group_blocks_all_sends(self):
+        self.write_groups({k:v for k,v in self.groups.items() if k!='ai'})
+        self.assertEqual(self.run_main('--test'),1)
+        self.factory.assert_not_called()
+    def test_invalid_groups_all_block_before_network(self):
+        invalid=['', 'https://evil.example/group', 'http://t.me/testgroup', 'https://t.me@evil.example/testgroup',
+                 'https://t.me:443/testgroup','https://t.me/share','https://t.me/+1234567890',
+                 'https://t.me/testgroup?x=y','https://t.me/testgroup#x','https://t.me/testgroup/12',
+                 'https://t.me/evil"><script>', 'https://t.me/te\nstgroup']
+        for url in invalid:
+            with self.subTest(url=url):
+                self.write_groups(dict(self.groups, ai=url))
+                self.assertEqual(self.run_main('--test'),1)
+                self.factory.assert_not_called()
+    def test_duplicate_and_unknown_departments_block(self):
+        for suffix in ['ai,https://t.me/testgroup\n','unknown,https://t.me/testgroup\n']:
+            self.write_groups(self.groups)
+            with (self.root/'groups.csv').open('a') as f:f.write(suffix)
+            self.assertEqual(self.run_main('--test'),1)
+            self.factory.assert_not_called()
+    def test_no_group_links_is_truly_noninteractive(self):
+        (self.root/'groups.csv').unlink()
+        self.assertEqual(self.run_main('--test','--no-group-links'),0)
+        for call in self.client.send_message.call_args_list:
+            msg=call.args[0]; h=msg.get_body(preferencelist=('html',)).get_content()
+            self.assertNotIn('<a ',h); self.assertNotIn('href=',h)
+            self.assertIn('aria-disabled="true"',h)
+            self.assertNotIn('https://t.me',h)
+            plain=msg.get_body(preferencelist=('plain',)).get_content()
+            self.assertNotIn('https://',plain)
+            self.assertIn('intentionally disabled',plain)
+    def test_dry_run_requires_groups_unless_bypass(self):
+        (self.root/'groups.csv').unlink()
+        self.assertEqual(self.run_main('--test','--dry-run'),1)
+        self.factory.assert_not_called()
+        self.assertEqual(self.run_main('--test','--dry-run','--no-group-links'),0)
+        self.factory.assert_not_called()
+    def test_no_links_without_test_is_rejected(self):
+        with self.assertRaises(SystemExit):self.run_main('--no-group-links')
+        self.factory.assert_not_called()
+    def test_custom_group_path_and_legacy_invite(self):
+        self.write_groups(dict(self.groups,ai='https://t.me/joinchat/Test_hash'))
+        alternate=self.root/'private.csv'; (self.root/'groups.csv').rename(alternate)
+        self.assertEqual(self.run_main('--test','--groups',str(alternate)),0)
+    def test_markup_is_escaped(self):
+        template='<p>{{first_name}} {{next_step_text}}</p><a href="{{next_step_url}}">join</a>'
+        with patch.object(sender,'FIRST_NAME','Ilyes <b>&'):
+            result=sender.render(template,True,'A&B <tag>','https://t.me/testgroup')
+        self.assertIn('Ilyes &lt;b&gt;&amp;',result)
+        self.assertIn('A&amp;B &lt;tag&gt;',result)
+        self.assertNotIn('<tag>',result)
+    def test_invites_never_logged(self):
+        self.assertEqual(self.run_main('--test'),0)
+        self.assertNotIn('https://t.me',self.output.getvalue())
+        for p in (self.root/'.send-state').glob('*.json'):
+            self.assertNotIn('https://t.me',p.read_text())
     def test_run_id_cannot_escape_directory(self):
         with self.assertRaises(SystemExit): self.run_main('--test','--run-id','../oops')
         self.factory.assert_not_called()

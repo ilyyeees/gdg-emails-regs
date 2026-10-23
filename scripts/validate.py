@@ -32,9 +32,9 @@ zip_path=R/'gdg-ensia-acceptance-emails.zip'
 if zip_path.exists():
  with zipfile.ZipFile(zip_path) as z:
   assert z.testzip() is None
-  assert len(z.namelist())==22
+  assert len(z.namelist())==21
   for d in D:
    for ext in ('html','txt'):
     f=f'emails/{d["slug"]}.{ext}';assert z.read(f)==(R/f).read_bytes(),f
- print('ZIP: 22 entries; integrity and template bytes match.')
+ print('ZIP: 21 entries; integrity and template bytes match.')
 print('Static validation passed. Perform separate browser and real inbox checks.')
