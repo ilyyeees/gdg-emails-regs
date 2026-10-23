@@ -122,7 +122,7 @@ def messages(root, sender, run_id, groups):
         msg = EmailMessage(policy=SMTP)
         msg['From'] = sender
         msg['To'] = RECIPIENT
-        msg['Subject'] = f'[TEST {run_id}] GDG ENSIA · {department["name"]} · Ilyes'
+        msg['Subject'] = f'Test Test Test [{run_id}] GDG ENSIA · {department["name"]} · Ilyes'
         msg['Date'] = formatdate(localtime=False)
         msg['Message-ID'] = make_msgid(domain=sender.rsplit('@', 1)[1])
         msg.set_content(render((root / 'emails' / f'{slug}.txt').read_text(encoding='utf-8'), False, department['name'], None if groups is None else groups[slug]))

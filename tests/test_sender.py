@@ -51,6 +51,14 @@ class SenderTests(unittest.TestCase):
             self.assertIn('<style>', html)
             self.assertIn('JOIN YOUR TELEGRAM GROUP', html)
 
+    def test_dark_outer_frame_and_readable_footer(self):
+        for slug in sender.SLUGS:
+            html = (self.root / 'emails' / (slug + '.html')).read_text()
+            self.assertIn('<body bgcolor="#111718"', html)
+            self.assertIn('class="outer" align="center" bgcolor="#111718"', html)
+            self.assertNotIn('#e5dfd3', html)
+            self.assertIn('color:#b9bba9;">GDG on Campus ENSIA', html)
+
     def test_normal_mode_never_connects(self):
         with self.assertRaises(SystemExit): self.run_main()
         self.factory.assert_not_called()
@@ -74,7 +82,7 @@ class SenderTests(unittest.TestCase):
             self.assertEqual(call.kwargs['from_addr'], 'sender@example.com')
             self.assertEqual(msg['To'], 'gdg@ensia.edu.dz')
             self.assertEqual(msg['From'], 'sender@example.com')
-            self.assertIn('[TEST test]', msg['Subject'])
+            self.assertTrue(str(msg['Subject']).startswith('Test Test Test [test]'))
             self.assertEqual(msg.get_content_type(), 'multipart/alternative')
             html = msg.get_body(preferencelist=('html',)).get_content()
             department = next(d['name'] for d in json.loads((self.root/'departments.json').read_text()) if d['slug']==slug)
