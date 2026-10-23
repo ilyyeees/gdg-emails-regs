@@ -50,6 +50,6 @@ The departmental relics and acceptance seal are original AI-generated fantasy il
 
 ## Validation
 
-See `QA.md` for actual completed checks and limitations. Browser rendering is **not** inbox-client certification. Gmail, Apple Mail, Outlook, and mobile clients may transform CSS, colors, and image display. A real inbox test is still required before production sending.
+Static checks cover all ten templates: complete placeholder sets, public HTTPS image paths, table-based structure, descriptive primary-image alt text, and HTML under 9 KB per letter. Browser rendering is **not** inbox-client certification. Gmail, Apple Mail, Outlook, and mobile clients may transform CSS, colors, and image display. A real inbox test is still required before production sending.
 
 The raster blackletter heading uses **Pirata One**, copyright Rodrigo Fuenzalida and Nicolas Massi, distributed under the SIL Open Font License 1.1. The unmodified font and license are bundled in `assets/fonts/`. Source: https://github.com/google/fonts/tree/main/ofl/pirataone . Only the decorative heading is rasterized; the acceptance and all actionable content remain real HTML.
