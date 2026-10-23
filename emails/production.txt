@@ -1,0 +1,15 @@
+Welcome to GDG ENSIA · Production
+
+Dear {{first_name}},
+
+You’ve been accepted into GDG ENSIA’s Production department.
+
+You’re now part of a community that learns by making things together. Bring your ideas, ask questions, and make this squad your own.
+
+Welcome to the squad!
+
+Your next step: {{next_step_text}}
+{{next_step_url}}
+
+GDG ENSIA Team
+Learn. Build. Belong.

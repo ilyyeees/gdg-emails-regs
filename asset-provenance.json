@@ -1,0 +1,17 @@
+{
+  "gdg-official.png": {
+    "source_page": "https://sites.google.com/ensia.edu.dz/gdgcensia/gdgc",
+    "discovered_via": "https://linktr.ee/gdg.ensia",
+    "source_url": "https://sites.google.com/sitesv-images-rt/AMxu72sxhb0qah6NGqYCXbsWxBBpEMVmCjrD1JxXVeIv5e60HOqk1liB4d6_S_ByQK_P7Qu3Hm0X3rWk74sqhKB3M6BXHiF-nLE2fW0HHXKRAsqKr3cKBVPMj9-LGO8gn7H1aR-6XlUZjYn6rsSLGNuN1YLkbX9qDUFnhiXUaC99rIdfb0RO4cuxUmbXVTXQ54I=w16383",
+    "treatment": "Original bytes, no redraw or recoloring"
+  },
+  "department_art": {
+    "method": "Original image generation",
+    "style": "Dark-fantasy grimoire relic illustrations",
+    "treatment": "Resizing and PNG encoding only"
+  },
+  "acceptance-seal.png": {
+    "method": "Original image generation",
+    "note": "Decorative four-leaf wax seal, not official branding"
+  }
+}
