@@ -39,6 +39,18 @@ class SenderTests(unittest.TestCase):
         self.smtp.stop(); self.env.stop(); self.tmp.cleanup()
     def run_main(self, *args):
         return sender.main(list(args), root=self.root)
+    def test_light_only_metadata_survives_mime_serialization(self):
+        from email import policy
+        from email.parser import BytesParser
+        self.assertEqual(self.run_main('--test'), 0)
+        for call in self.client.send_message.call_args_list:
+            decoded = BytesParser(policy=policy.default).parsebytes(call.args[0].as_bytes())
+            html = decoded.get_body(preferencelist=('html',)).get_content()
+            self.assertIn('<meta name="color-scheme" content="light only">', html)
+            self.assertIn('<meta name="supported-color-schemes" content="light only">', html)
+            self.assertIn('<style>', html)
+            self.assertIn('JOIN YOUR TELEGRAM GROUP', html)
+
     def test_normal_mode_never_connects(self):
         with self.assertRaises(SystemExit): self.run_main()
         self.factory.assert_not_called()
