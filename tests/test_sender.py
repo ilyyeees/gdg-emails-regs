@@ -62,8 +62,8 @@ class SenderTests(unittest.TestCase):
     def test_normal_mode_never_connects(self):
         with self.assertRaises(SystemExit): self.run_main()
         self.factory.assert_not_called()
-    def test_dry_run_requires_test_flag(self):
-        with self.assertRaises(SystemExit): self.run_main('--dry-run')
+    def test_no_links_requires_test_flag(self):
+        with self.assertRaises(SystemExit): self.run_main('--dry-run', '--no-group-links')
         self.factory.assert_not_called()
     def test_missing_credentials_fails_before_network(self):
         with patch.dict(os.environ, {}, clear=True):
